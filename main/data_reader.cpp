@@ -1,7 +1,7 @@
 #include "data_reader.hpp"
 
-void read_data() {
-  static const char* TAG = "data_reader";
+void read_gyro() {
+  static const char* TAG = "gyro";
   bno055_vector_t v;
 
   if (gyro_ok != true) {
@@ -27,9 +27,21 @@ void read_data() {
   storage.heading = v.x;
 }
 
-void reader_task(void* pvParameters) {
+// void baro_task(void* pvParameters) {
+//   static const char* TAG = "baro";
+//   bme280_reading_data sensor_data = bme280.readSensorData();
+
+//   printf("Temperature: %.2foC, Humidity: %.2f%%, Pressure: %.2fPa\n",
+//           (double) sensor_data.temperature,
+//           (double) sensor_data.humidity,
+//           (double) sensor_data.pressure
+//   );
+//   vTaskDelay(1000 / portTICK_PERIOD_MS);
+// }
+
+void gyro_task(void* pvParameters) {
   for (;;) {
-    read_data();
+    read_gyro();
     vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }
