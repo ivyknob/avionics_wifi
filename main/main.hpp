@@ -15,9 +15,7 @@
 #include "data_reader.hpp"
 
 #include "gyro.hpp"
-// #include "baro.hpp"
 
-// i2c_config_t i2c_conf;
 extern DataStorage storage;
 
 #endif  // MAIN_MAIN_H_
