@@ -15,6 +15,7 @@
 #include "data_reader.hpp"
 
 #include "gyro.hpp"
+#include "can_interface.hpp"
 
 extern DataStorage storage;
 
