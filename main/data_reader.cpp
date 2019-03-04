@@ -22,8 +22,8 @@ void read_gyro() {
     ESP_LOGE(TAG, "Something bad happened: %s", ex.what());
   }
 
-  storage.pitch = v.z;
-  storage.roll = v.y;
+  storage.pitch = v.y;
+  storage.roll = v.z;
   storage.heading = v.x;
 }
 

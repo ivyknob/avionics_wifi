@@ -1,23 +1,17 @@
-menu "Avionics WiFi"
+menu "Example Configuration"
 
-config LED_PIN
-  int "LED GPIO Pin"
-  range 0 40
-  default 2
-  help
-    GPIO Connected to LED. Many of the ESP32 development
-    boards have one connected to pin 2.
+    config WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
 
-config AP_SSID
-  string "Access Point SSID"
-  default "Avionics_WiFi"
-  help
-    Name of access point that the ESP32 creates.
+    config WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
 
-config AP_PSSWD
-  string "Access Point Password"
-  default "123123123456456456"
-  help
-    Password of access point that the ESP32 creates.
+            Can be left blank if the network has no security set.
 
 endmenu

@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := avionics
+PROJECT_NAME := avionics_wifi
 
 include $(IDF_PATH)/make/project.mk
 

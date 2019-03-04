@@ -48,7 +48,7 @@ void websocket_callback(uint8_t num, WEBSOCKET_TYPE_t type, char* msg, uint64_t 
 void http_serve(struct netconn *conn) {
   static const char* TAG = "http_server";
   static const char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-  static const char ERROR_HEADER[] = "HTTP/1.1 404 Not Found\nContent-type: text/html\n\n";
+  // static const char ERROR_HEADER[] = "HTTP/1.1 404 Not Found\nContent-type: text/html\n\n";
   static const char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   static const char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
   //  static const char PNG_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/png\n\n";
@@ -65,25 +65,20 @@ void http_serve(struct netconn *conn) {
   extern const uint8_t index_html_end[] asm("_binary_index_html_end");
   const uint32_t index_html_len = index_html_end - index_html_start;
 
-  // test.js
-  extern const uint8_t bundle_js_start[] asm("_binary_bundle_js_start");
-  extern const uint8_t bundle_js_end[] asm("_binary_bundle_js_end");
-  const uint32_t bundle_js_len = bundle_js_end - bundle_js_start;
+  // avionics.js
+  extern const uint8_t avionics_js_start[] asm("_binary_avionics_js_start");
+  extern const uint8_t avionics_js_end[] asm("_binary_avionics_js_end");
+  const uint32_t avionics_js_len = avionics_js_end - avionics_js_start;
 
-  // test.css
-  extern const uint8_t test_css_start[] asm("_binary_avionics_css_start");
-  extern const uint8_t test_css_end[] asm("_binary_avionics_css_end");
-  const uint32_t test_css_len = test_css_end - test_css_start;
+  // avionics.css
+  extern const uint8_t avionics_css_start[] asm("_binary_avionics_css_start");
+  extern const uint8_t avionics_css_end[] asm("_binary_avionics_css_end");
+  const uint32_t avionics_css_len = avionics_css_end - avionics_css_start;
 
   // favicon.ico
   extern const uint8_t favicon_ico_start[] asm("_binary_favicon_ico_start");
   extern const uint8_t favicon_ico_end[] asm("_binary_favicon_ico_end");
   const uint32_t favicon_ico_len = favicon_ico_end - favicon_ico_start;
-
-  // error page
-  extern const uint8_t error_html_start[] asm("_binary_404_html_start");
-  extern const uint8_t error_html_end[] asm("_binary_404_html_end");
-  const uint32_t error_html_len = error_html_end - error_html_start;
 
   netconn_set_recvtimeout(conn, 1000);  //  allow a connection timeout of 1 second
   ESP_LOGI(TAG, "reading from client...");
@@ -103,19 +98,19 @@ void http_serve(struct netconn *conn) {
       } else if (strstr(buf, "GET / ") && strstr(buf, "Upgrade: websocket")) {
         // default page websocket
         ESP_LOGI(TAG, "Requesting websocket on /");
-        ws_server_add_client(conn, buf, buflen, "/", websocket_callback);
+        ws_server_add_client(conn, buf, buflen, (char*)"/", websocket_callback);
         netbuf_delete(inbuf);
-      } else if (strstr(buf, "GET /bundle.js ")) {
-        ESP_LOGI(TAG, "Sending /bundle.js");
+      } else if (strstr(buf, "GET /avionics.js ")) {
+        ESP_LOGI(TAG, "Sending /avionics.js");
         netconn_write(conn, JS_HEADER, sizeof(JS_HEADER) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, bundle_js_start, bundle_js_len, NETCONN_NOCOPY);
+        netconn_write(conn, avionics_js_start, avionics_js_len, NETCONN_NOCOPY);
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
       } else if (strstr(buf, "GET /avionics.css ")) {
         ESP_LOGI(TAG, "Sending /avionics.css");
         netconn_write(conn, CSS_HEADER, sizeof(CSS_HEADER) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, test_css_start, test_css_len, NETCONN_NOCOPY);
+        netconn_write(conn, avionics_css_start, avionics_css_len, NETCONN_NOCOPY);
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
@@ -126,13 +121,13 @@ void http_serve(struct netconn *conn) {
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
-      } else if (strstr(buf, "GET /")) {
-        ESP_LOGI(TAG, "Unknown request, sending error page: %s", buf);
-        netconn_write(conn, ERROR_HEADER, sizeof(ERROR_HEADER) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, error_html_start, error_html_len, NETCONN_NOCOPY);
-        netconn_close(conn);
-        netconn_delete(conn);
-        netbuf_delete(inbuf);
+      // } else if (strstr(buf, "GET /")) {
+      //   ESP_LOGI(TAG, "Unknown request, sending error page: %s", buf);
+      //   netconn_write(conn, ERROR_HEADER, sizeof(ERROR_HEADER) - 1, NETCONN_NOCOPY);
+      //   netconn_write(conn, error_html_start, error_html_len, NETCONN_NOCOPY);
+      //   netconn_close(conn);
+      //   netconn_delete(conn);
+      //   netbuf_delete(inbuf);
       } else {
         ESP_LOGI(TAG, "Unknown request");
         netconn_close(conn);
@@ -207,6 +202,7 @@ void websockets_task(void* pvParameters) {
     cJSON_AddNumberToObject(root, "pitch", (int)storage.pitch);
     cJSON_AddNumberToObject(root, "roll", (int)storage.roll);
     cJSON_AddNumberToObject(root, "heading", (int)storage.heading);
+    
     rendered = cJSON_PrintUnformatted(root);
     len = strlen(rendered);
     clients = ws_server_send_text_all(rendered, len);
