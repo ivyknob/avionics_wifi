@@ -8,7 +8,7 @@
 mkdir ~/esp
 cd ~/esp
 wget https://dl.espressif.com/dl/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz
-tar -xzf ~/Downloads/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz
+tar -xzf ~/esp/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz
 ```
 Add `$HOME/esp/xtensa-esp32-elf/bin` to ~/.zshrc or ~/.profile .
 It should look something like:
