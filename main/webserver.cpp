@@ -1,5 +1,4 @@
 #include "webserver.hpp"
-#define PI 3.14159265
 
 static QueueHandle_t client_queue;
 static const int client_queue_size = 10;

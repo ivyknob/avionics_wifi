@@ -9,7 +9,7 @@ void gyro_init() {
   bno = new BNO055(UART_NUM_1, GPIO_NUM_17, GPIO_NUM_16);
 
   // bno = new BNO055((i2c_port_t)I2C_NUM_0, 0x29); // BNO055 I2C Addr can be 0x28 or 0x29 (depends on your hardware)
-
+	xTaskCreate(&gyro_task, "gyro_task", 3000, NULL, 2, NULL);
   try{
 		bno->begin(); //BNO055 is in CONFIG_MODE until it is changed
 		bno->enableExternalCrystal();

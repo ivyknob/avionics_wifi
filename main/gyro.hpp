@@ -6,6 +6,7 @@
 #include "freertos/queue.h"
 #include <math.h>
 #include "BNO055ESP32.h"
+#include "data_reader.hpp"
 
 void gyro_init();
 

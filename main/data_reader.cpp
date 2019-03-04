@@ -27,9 +27,23 @@ void read_gyro() {
   storage.heading = v.x;
 }
 
+void read_fake_gyro() {
+  unsigned long ts = int(esp_timer_get_time() / 10000);
+  ts = ts % 360;
+  double rads = ts * 2.0 * PI / 360.0;
+  storage.pitch = 10.0 * cos(rads + PI / 4.0);
+  storage.roll = 10.0 * sin(rads);
+  storage.heading = 180 + 180.0 * sin(rads + PI / 3.0);
+}
+
 void gyro_task(void* pvParameters) {
   for (;;) {
-    read_gyro();
+    if (gyro_ok == true) {
+      read_gyro();
+    } else {
+      read_fake_gyro();
+    }
+    
     vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }

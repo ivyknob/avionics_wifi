@@ -1,5 +1,6 @@
 #ifndef MAIN_MAIN_H_
 #define MAIN_MAIN_H_
+#define PI 3.14159265
 
 #include <string.h>
 #include <stdlib.h>
