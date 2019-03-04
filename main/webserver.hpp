@@ -1,6 +1,9 @@
 #ifndef MAIN_WEBSERVER_H_
 #define MAIN_WEBSERVER_H_
 
+
+#include <string.h>
+#include <stdlib.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -12,7 +15,6 @@
 #include "esp_event_loop.h"
 #include "nvs_flash.h"
 
-#include "string.h"
 #include "cJSON.h"
 
 #include "websocket_server.h"
