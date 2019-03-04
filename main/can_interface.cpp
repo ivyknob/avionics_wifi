@@ -16,6 +16,7 @@ SemaphoreHandle_t ctrl_sem;
 SemaphoreHandle_t done_sem;
 
 void can_init() {
+  return;
   tx_sem = xSemaphoreCreateBinary();
   rx_sem = xSemaphoreCreateBinary();
   ctrl_sem = xSemaphoreCreateBinary();
