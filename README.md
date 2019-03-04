@@ -1,5 +1,7 @@
 # Avionics WiFi
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/83ef02e6158fb5fd8ecd/maintainability)](https://codeclimate.com/github/ivyknob/avionics_wifi/maintainability)
+
 ## Requirements
 
 ### ESP Toolchain

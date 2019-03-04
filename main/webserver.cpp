@@ -187,28 +187,22 @@ void server_handle_task(void* pvParameters) {
 
 void websockets_task(void* pvParameters) {
   static const char* TAG = "websockets_task";
-  cJSON *root;
-  char *rendered;
-  int64_t len;
-  int clients;
   int n = 0;
-  const int DELAY = 100 / portTICK_PERIOD_MS;  //  1 second
+  const int DELAY = 100 / portTICK_PERIOD_MS;
 
   ESP_LOGI(TAG, "starting task");
   for (;;) {
 	
-    root = cJSON_CreateObject();
+    cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "pitch", (int)storage.pitch);
     cJSON_AddNumberToObject(root, "roll", (int)storage.roll);
     cJSON_AddNumberToObject(root, "heading", (int)storage.heading);
-    
-    rendered = cJSON_PrintUnformatted(root);
-    len = strlen(rendered);
-    clients = ws_server_send_text_all(rendered, len);
+
+    char *rendered = cJSON_PrintUnformatted(root);
+    int64_t len = strlen(rendered);
+    ws_server_send_text_all(rendered, len);
     cJSON_Delete(root);
-    if (clients > 0) {
-      // ESP_LOGI(TAG, "sent: \"%s\" to %i clients",out,clients);
-    }
+
     n++;
     if (n > 10) {
       n = 0;
