@@ -56,6 +56,41 @@ python -m pip install --user -r $IDF_PATH/requirements.txt
 
 Inside repo run: `git submodule update --init --recursive`
 
+### Configuration
+
+Check esp32 port with command:
+
+```
+ls /dev | grep usb
+```
+And copy it.
+
+**Ubuntu**
+
+```
+cp sdkconfig.ubuntu sdkconfig
+```
+
+Edit `sdkconfig` and insert correct port from above.
+
+**MAC OS X**
+
+```
+cp sdkconfig.osx sdkconfig
+```
+
+Edit `sdkconfig` and insert correct port from above.
+
+**Run after cp**
+
+Run command to generate full configuration file:
+
+```
+make defconfig
+```
+
+**If there are new configuration found in sdk please commit changes back to sdkconfig.defaults**
+
 ## Build and Flash
 
 Build the project and flash it to the board, then run monitor tool to view serial output:
