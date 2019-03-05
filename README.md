@@ -23,7 +23,7 @@ wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2
 tar -xzf ~/esp/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
 ```
 
-Add `$HOME/esp/xtensa-esp32-elf/bin` to ~/.zshrc or ~/.profile .
+Add `$HOME/esp/xtensa-esp32-elf/bin` to `~/.zshrc` or `~/.profile`.
 It should look something like:
 ```
 export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
@@ -35,7 +35,7 @@ export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
 cd ~/esp
 git clone --recursive https://github.com/espressif/esp-idf.git
 ```
-Add `export IDF_PATH="$HOME/esp/esp-idf"` to ~/.zshrc or ~/.profile .
+Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
 
 **Restart terminal application**
 
@@ -65,33 +65,16 @@ Check esp32 port with command:
 ```
 ls /dev | grep usb
 ```
-And copy it.
 
-**Ubuntu**
+copy port name.
 
-```
-cp sdkconfig.ubuntu sdkconfig
-```
-
-Edit `sdkconfig` and insert correct port from above.
-
-**MAC OS X**
+Add something like this to your `~/.profile` or `~/.zshrc file`
 
 ```
-cp sdkconfig.osx sdkconfig
+export CONFIG_ESPTOOLPY_PORT="/dev/tty.usbserial-1420"
 ```
 
-Edit `sdkconfig` and insert correct port from above.
-
-**Run after cp**
-
-Run command to generate full configuration file:
-
-```
-make defconfig
-```
-
-**If there are new configuration found in sdk please commit changes back to sdkconfig.defaults**
+Reload terminal or use source command
 
 ## Build and Flash
 
