@@ -45,8 +45,8 @@ void wifi_init_sta() {
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
     wifi_config_t wifi_config = {
         .sta = {
-            { .ssid = "redde_2g" },
-            { .password = "123123123456456456" }
+            { .ssid = CONFIG_WIFI_SSID },
+            { .password = CONFIG_WIFI_PASSWORD }
         }
     };
 
@@ -56,7 +56,7 @@ void wifi_init_sta() {
 
     ESP_LOGI(TAG, "wifi_init_sta finished.");
     ESP_LOGI(TAG, "connect to ap SSID:%s password:%s",
-             "redde_2g", "123123123456456456");
+             CONFIG_WIFI_SSID, CONFIG_WIFI_PASSWORD);
 }
 
 // static EventGroupHandle_t s_wifi_event_group;
