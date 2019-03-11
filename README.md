@@ -41,12 +41,13 @@ Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
 
 #### Python
 
-**Ubuntu**
-```
-sudo easy_install pip
-```
+##### installing pip
 
-**Mac OS X**
+```
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+rm get-pip.py
+```
 
 **After installing pip**
 
