@@ -74,7 +74,25 @@ Add something like this to your `~/.profile` or `~/.zshrc file`
 export CONFIG_ESPTOOLPY_PORT="/dev/tty.usbserial-1420"
 ```
 
-Reload terminal or use source command
+Reload terminal or use source command.
+
+### sdkconfig
+
+Copy sample file:
+
+```
+cp sdkconfig.sample sdkconfig
+```
+
+Run:
+
+```
+make menuconfig
+```
+
+* In `WiFi Configuration` select your access point.
+* In `Serial Flasher Config` -> `Default serial port` enter port from above.
+* `Save` -> `Exit`
 
 ## Build and Flash
 
