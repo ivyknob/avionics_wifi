@@ -1,5 +1,7 @@
 # Avionics WiFi
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/83ef02e6158fb5fd8ecd/maintainability)](https://codeclimate.com/github/ivyknob/avionics_wifi/maintainability)
+
 ## Requirements
 
 ### ESP Toolchain
@@ -21,7 +23,7 @@ wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2
 tar -xzf ~/esp/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
 ```
 
-Add `$HOME/esp/xtensa-esp32-elf/bin` to ~/.zshrc or ~/.profile .
+Add `$HOME/esp/xtensa-esp32-elf/bin` to `~/.zshrc` or `~/.profile`.
 It should look something like:
 ```
 export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
@@ -33,7 +35,7 @@ export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
 cd ~/esp
 git clone --recursive https://github.com/espressif/esp-idf.git
 ```
-Add `export IDF_PATH="$HOME/esp/esp-idf"` to ~/.zshrc or ~/.profile .
+Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
 
 **Restart terminal application**
 
@@ -63,33 +65,34 @@ Check esp32 port with command:
 ```
 ls /dev | grep usb
 ```
-And copy it.
 
-**Ubuntu**
+copy port name.
 
-```
-cp sdkconfig.ubuntu sdkconfig
-```
-
-Edit `sdkconfig` and insert correct port from above.
-
-**MAC OS X**
+Add something like this to your `~/.profile` or `~/.zshrc file`
 
 ```
-cp sdkconfig.osx sdkconfig
+export CONFIG_ESPTOOLPY_PORT="/dev/tty.usbserial-1420"
 ```
 
-Edit `sdkconfig` and insert correct port from above.
+Reload terminal or use source command.
 
-**Run after cp**
+### sdkconfig
 
-Run command to generate full configuration file:
+Copy sample file:
 
 ```
-make defconfig
+cp sdkconfig.sample sdkconfig
 ```
 
-**If there are new configuration found in sdk please commit changes back to sdkconfig.defaults**
+Run:
+
+```
+make menuconfig
+```
+
+* In `WiFi Configuration` select your access point.
+* In `Serial Flasher Config` -> `Default serial port` enter port from above.
+* `Save` -> `Exit`
 
 ## Build and Flash
 
