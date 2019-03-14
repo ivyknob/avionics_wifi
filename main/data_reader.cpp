@@ -31,14 +31,14 @@ void read_gyro() {
 
 void read_fake_gyro() {
   double rads = step * 2.0 * PI / 360.0;
-  storage.pitch = ((int)(10 *(10.0 * cos(rads + PI / 4.0)))) / 10.0;
-  storage.roll = ((int)(10 * (10.0 * sin(rads)))) / 10.0;
+  storage.pitch = ((int)(20 *(10.0 * cos(rads + PI / 4.0)))) / 10.0;
+  storage.roll = ((int)(30 * (10.0 * sin(rads)))) / 10.0;
   storage.heading = 180 + 180.0 * sin(rads + PI / 3.0);
   storage.altitude = 1000 + 1000 * sin(rads);
   storage.airspeed = 100 + 100 * sin(rads);
   storage.ground_speed = 100 + 90 * sin(rads) - 5;
-  storage.desired_heading = 100;
-  storage.desired_altitude = 1000;
+  storage.desired_heading = 100 + 30 * sin(rads);
+  storage.desired_altitude = 1000 + 100 * sin(rads);
   storage.qnh = 1013;
   step++;
 }

@@ -175,7 +175,7 @@ void server_handle_task(void* pvParameters) {
 
 void websockets_task(void* pvParameters) {
   static const char* TAG = "websockets_task";
-  // int n = 0;
+  int n = 0;
   const int DELAY = 100 / portTICK_PERIOD_MS;
 
   ESP_LOGI(TAG, "starting task");
@@ -197,11 +197,11 @@ void websockets_task(void* pvParameters) {
     ws_server_send_text_all(rendered, len);
     cJSON_Delete(root);
 
-    // n++;
-    // if (n > 10) {
-    //   n = 0;
-    //   ESP_LOGI(TAG, "rendered json: %s", rendered);
-    // }
+    n++;
+    if (n > 50) {
+      n = 0;
+      ESP_LOGI(TAG, "rendered json: %s", rendered);
+    }
     vTaskDelay(DELAY);
   }
 }

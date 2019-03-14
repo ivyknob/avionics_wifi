@@ -18,6 +18,10 @@
         avionics.roll = data.roll;
         avionics.pitch = data.pitch;
         avionics.currentHeading = data.heading;
+        avionics.altitude = data.altitude;
+        avionics.airspeed = data.airspeed;
+        avionics.selectedAltitude = data.desired_altitude;
+        avionics.groundSpeed = data.ground_speed;
       }
 
       websocket.onclose = function(evt) {
