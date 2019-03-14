@@ -64,7 +64,7 @@ Inside repo run: `git submodule update --init --recursive`
 Check esp32 port with command:
 
 ```
-ls /dev | grep usb
+ls /dev | grep -i usb
 ```
 
 copy port name.
@@ -103,4 +103,4 @@ Build the project and flash it to the board, then run monitor tool to view seria
 make -j4 flash monitor
 ```
 
-(To exit the serial monitor, type ``Ctrl-]``.)
+(To exit the serial monitor, type ``Ctrl+]``.)
