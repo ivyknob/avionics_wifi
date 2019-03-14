@@ -49,7 +49,7 @@ void http_serve(struct netconn *conn) {
   static const char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   // static const char ERROR_HEADER[] = "HTTP/1.1 404 Not Found\nContent-type: text/html\n\n";
   static const char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
-  static const char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
+  // static const char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
   //  static const char PNG_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/png\n\n";
   static const char ICO_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/x-icon\n\n";
   //  static const char PDF_HEADER[] = "HTTP/1.1 200 OK\nContent-type: application/pdf\n\n";
@@ -68,11 +68,6 @@ void http_serve(struct netconn *conn) {
   extern const uint8_t avionics_js_start[] asm("_binary_avionics_js_start");
   extern const uint8_t avionics_js_end[] asm("_binary_avionics_js_end");
   const uint32_t avionics_js_len = avionics_js_end - avionics_js_start;
-
-  // avionics.css
-  extern const uint8_t avionics_css_start[] asm("_binary_avionics_css_start");
-  extern const uint8_t avionics_css_end[] asm("_binary_avionics_css_end");
-  const uint32_t avionics_css_len = avionics_css_end - avionics_css_start;
 
   // favicon.ico
   extern const uint8_t favicon_ico_start[] asm("_binary_favicon_ico_start");
@@ -103,13 +98,6 @@ void http_serve(struct netconn *conn) {
         ESP_LOGI(TAG, "Sending /avionics.js");
         netconn_write(conn, JS_HEADER, sizeof(JS_HEADER) - 1, NETCONN_NOCOPY);
         netconn_write(conn, avionics_js_start, avionics_js_len, NETCONN_NOCOPY);
-        netconn_close(conn);
-        netconn_delete(conn);
-        netbuf_delete(inbuf);
-      } else if (strstr(buf, "GET /avionics.css ")) {
-        ESP_LOGI(TAG, "Sending /avionics.css");
-        netconn_write(conn, CSS_HEADER, sizeof(CSS_HEADER) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, avionics_css_start, avionics_css_len, NETCONN_NOCOPY);
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
@@ -192,7 +180,7 @@ void websockets_task(void* pvParameters) {
 
   ESP_LOGI(TAG, "starting task");
   for (;;) {
-	
+
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "pitch", (int)storage.pitch);
     cJSON_AddNumberToObject(root, "roll", (int)storage.roll);
