@@ -1,0 +1,24 @@
+{
+  "name": "avionics_wifi",
+  "version": "1.0.0",
+  "description": "[![Maintainability](https://api.codeclimate.com/v1/badges/83ef02e6158fb5fd8ecd/maintainability)](https://codeclimate.com/github/ivyknob/avionics_wifi/maintainability)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivyknob/avionics_wifi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivyknob/avionics_wifi/issues"
+  },
+  "homepage": "https://github.com/ivyknob/avionics_wifi#readme",
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}
