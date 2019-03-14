@@ -187,27 +187,33 @@ void server_handle_task(void* pvParameters) {
 
 void websockets_task(void* pvParameters) {
   static const char* TAG = "websockets_task";
-  int n = 0;
+  // int n = 0;
   const int DELAY = 100 / portTICK_PERIOD_MS;
 
   ESP_LOGI(TAG, "starting task");
   for (;;) {
 	
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "pitch", (int)storage.pitch);
-    cJSON_AddNumberToObject(root, "roll", (int)storage.roll);
+    cJSON_AddNumberToObject(root, "pitch", storage.pitch);
+    cJSON_AddNumberToObject(root, "roll", storage.roll);
     cJSON_AddNumberToObject(root, "heading", (int)storage.heading);
+    cJSON_AddNumberToObject(root, "altitude", (int)storage.altitude);
+    cJSON_AddNumberToObject(root, "desired_heading", (int)storage.desired_heading);
+    cJSON_AddNumberToObject(root, "desired_altitude", (int)storage.desired_altitude);
+    cJSON_AddNumberToObject(root, "airspeed", (int)storage.airspeed);
+    cJSON_AddNumberToObject(root, "ground_speed", (int)storage.ground_speed);
+    cJSON_AddNumberToObject(root, "qnh", (int)storage.qnh);
 
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);
     ws_server_send_text_all(rendered, len);
     cJSON_Delete(root);
 
-    n++;
-    if (n > 10) {
-      n = 0;
-      ESP_LOGI(TAG, "rendered json: %s", rendered);
-    }
+    // n++;
+    // if (n > 10) {
+    //   n = 0;
+    //   ESP_LOGI(TAG, "rendered json: %s", rendered);
+    // }
     vTaskDelay(DELAY);
   }
 }

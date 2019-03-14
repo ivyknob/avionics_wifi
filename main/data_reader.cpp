@@ -1,5 +1,7 @@
 #include "data_reader.hpp"
 
+int step = 0;
+
 void read_gyro() {
   static const char* TAG = "gyro";
   bno055_vector_t v;
@@ -28,12 +30,17 @@ void read_gyro() {
 }
 
 void read_fake_gyro() {
-  unsigned long ts = int(esp_timer_get_time() / 10000);
-  ts = ts % 360;
-  double rads = ts * 2.0 * PI / 360.0;
-  storage.pitch = 10.0 * cos(rads + PI / 4.0);
-  storage.roll = 10.0 * sin(rads);
+  double rads = step * 2.0 * PI / 360.0;
+  storage.pitch = ((int)(10 *(10.0 * cos(rads + PI / 4.0)))) / 10.0;
+  storage.roll = ((int)(10 * (10.0 * sin(rads)))) / 10.0;
   storage.heading = 180 + 180.0 * sin(rads + PI / 3.0);
+  storage.altitude = 1000 + 1000 * sin(rads);
+  storage.airspeed = 100 + 100 * sin(rads);
+  storage.ground_speed = 100 + 90 * sin(rads) - 5;
+  storage.desired_heading = 100;
+  storage.desired_altitude = 1000;
+  storage.qnh = 1013;
+  step++;
 }
 
 void gyro_task(void* pvParameters) {
