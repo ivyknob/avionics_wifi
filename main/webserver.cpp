@@ -178,7 +178,7 @@ void websockets_task(void* pvParameters) {
   int n = 0;
   const int DELAY = 100 / portTICK_PERIOD_MS;
 
-  ESP_LOGI(TAG, "starting task");
+  ESP_LOGI(TAG, "Started");
   for (;;) {
 
     cJSON *root = cJSON_CreateObject();
@@ -194,8 +194,14 @@ void websockets_task(void* pvParameters) {
 
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);
-    ws_server_send_text_all(rendered, len);
+
+    int retries = ws_server_send_text_all(rendered, len);
     cJSON_Delete(root);
+    free(rendered);
+
+    if (retries > 1) {
+      ESP_LOGE(TAG, "Retries number > 1: %d", retries);
+    }
 
     n++;
     if (n > 50) {
