@@ -5,4 +5,4 @@
 
 # embed files from the "certs" directory as binary data symbols
 # in the app
-COMPONENT_EMBED_FILES := html/index.html html/avionics.js html/avionics.js.gz html/favicon.ico
+COMPONENT_EMBED_FILES := html/index.html html/avionics.js.gz html/favicon.ico

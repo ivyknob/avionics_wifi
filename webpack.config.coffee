@@ -1,6 +1,6 @@
 path = require('path')
 CompressionPlugin = require('compression-webpack-plugin')
-# WebpackCleanPlugin = require('webpack-clean')
+WebpackCleanPlugin = require('webpack-clean')
 
 module.exports =
   mode: 'production'
@@ -16,5 +16,5 @@ module.exports =
   plugins: [
     new CompressionPlugin
       test: /avionics\.js$/
-    # new WebpackCleanPlugin(['main/html/avionics.js'])
+    new WebpackCleanPlugin(['main/html/avionics.js'])
   ]
