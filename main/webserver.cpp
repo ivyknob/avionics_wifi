@@ -195,9 +195,15 @@ void websockets_task(void* pvParameters) {
   for (;;) {
 
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "pitch", (int)storage.pitch);
-    cJSON_AddNumberToObject(root, "roll", (int)storage.roll);
+    cJSON_AddNumberToObject(root, "pitch", storage.pitch);
+    cJSON_AddNumberToObject(root, "roll", storage.roll);
     cJSON_AddNumberToObject(root, "heading", (int)storage.heading);
+    cJSON_AddNumberToObject(root, "altitude", (int)storage.altitude);
+    cJSON_AddNumberToObject(root, "desired_heading", (int)storage.desired_heading);
+    cJSON_AddNumberToObject(root, "desired_altitude", (int)storage.desired_altitude);
+    cJSON_AddNumberToObject(root, "airspeed", (int)storage.airspeed);
+    cJSON_AddNumberToObject(root, "ground_speed", (int)storage.ground_speed);
+    cJSON_AddNumberToObject(root, "qnh", (int)storage.qnh);
 
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);
@@ -205,7 +211,7 @@ void websockets_task(void* pvParameters) {
     cJSON_Delete(root);
 
     n++;
-    if (n > 10) {
+    if (n > 50) {
       n = 0;
       ESP_LOGI(TAG, "rendered json: %s", rendered);
     }
