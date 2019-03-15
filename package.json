@@ -20,7 +20,11 @@
   "devDependencies": {
     "coffee-script": "^1.12.7",
     "compression-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1",
+    "toastr": "^2.1.4",
     "webpack": "^4.29.6",
+    "webpack-clean": "^1.2.3",
     "webpack-cli": "^3.2.3"
   }
 }

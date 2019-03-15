@@ -10,7 +10,7 @@
       var websocket = new WebSocket('ws://'+location.hostname+'/');
 
       websocket.onopen = function(evt) {
-        console.log('WebSocket connection opened');
+        toastr.success('WebSocket connection opened');
       }
 
       websocket.onmessage = function(evt) {
@@ -25,11 +25,11 @@
       }
 
       websocket.onclose = function(evt) {
-        console.log('Websocket connection closed');
+        toastr.warning('Websocket connection closed', null, {timeOut: 84600, closeButton: true});
       }
 
       websocket.onerror = function(evt) {
-        console.log('Websocket error: ' + evt);
+        toastr.error('Websocket error: ' + evt, null, {timeOut: 84600, closeButton: true});
       }
     });
   </script>
