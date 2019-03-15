@@ -195,13 +195,9 @@ void websockets_task(void* pvParameters) {
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);
 
-    int retries = ws_server_send_text_all(rendered, len);
+    ws_server_send_text_all(rendered, len);
     cJSON_Delete(root);
     free(rendered);
-
-    if (retries > 1) {
-      ESP_LOGE(TAG, "Retries number > 1: %d", retries);
-    }
 
     n++;
     if (n > 50) {
