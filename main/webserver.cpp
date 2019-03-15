@@ -48,7 +48,7 @@ void http_serve(struct netconn *conn) {
   static const char* TAG = "http_server";
   static const char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   // static const char ERROR_HEADER[] = "HTTP/1.1 404 Not Found\nContent-type: text/html\n\n";
-  static const char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
+  static const char JS_GZIP_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\nContent-Encoding: gzip\n\n";
   // static const char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
   //  static const char PNG_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/png\n\n";
   static const char ICO_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/x-icon\n\n";
@@ -64,10 +64,10 @@ void http_serve(struct netconn *conn) {
   extern const uint8_t index_html_end[] asm("_binary_index_html_end");
   const uint32_t index_html_len = index_html_end - index_html_start;
 
-  // avionics.js
-  extern const uint8_t avionics_js_start[] asm("_binary_avionics_js_start");
-  extern const uint8_t avionics_js_end[] asm("_binary_avionics_js_end");
-  const uint32_t avionics_js_len = avionics_js_end - avionics_js_start;
+  // avionics.js.gz
+  extern const uint8_t avionics_js_gz_start[] asm("_binary_avionics_js_gz_start");
+  extern const uint8_t avionics_js_gz_end[] asm("_binary_avionics_js_gz_end");
+  const uint32_t avionics_js_gz_len = avionics_js_gz_end - avionics_js_gz_start;
 
   // favicon.ico
   extern const uint8_t favicon_ico_start[] asm("_binary_favicon_ico_start");
@@ -94,10 +94,10 @@ void http_serve(struct netconn *conn) {
         ESP_LOGI(TAG, "Requesting websocket on /");
         ws_server_add_client(conn, buf, buflen, (char*)"/", websocket_callback);
         netbuf_delete(inbuf);
-      } else if (strstr(buf, "GET /avionics.js ")) {
-        ESP_LOGI(TAG, "Sending /avionics.js");
-        netconn_write(conn, JS_HEADER, sizeof(JS_HEADER) - 1, NETCONN_NOCOPY);
-        netconn_write(conn, avionics_js_start, avionics_js_len, NETCONN_NOCOPY);
+      } else if (strstr(buf, "GET /avionics.js.gz ")) {
+        ESP_LOGI(TAG, "Sending /avionics.js.gz");
+        netconn_write(conn, JS_GZIP_HEADER, sizeof(JS_GZIP_HEADER) - 1, NETCONN_NOCOPY);
+        netconn_write(conn, avionics_js_gz_start, avionics_js_gz_len, NETCONN_NOCOPY);
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
