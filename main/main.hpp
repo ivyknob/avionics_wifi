@@ -1,6 +1,9 @@
 #ifndef MAIN_MAIN_H_
 #define MAIN_MAIN_H_
 #define PI 3.14159265
+#define CAN_PERIOD 100
+#define WS_PERIOD 100
+#define BLINK_GPIO GPIO_NUM_5
 
 #include <string.h>
 #include <stdlib.h>
@@ -21,7 +24,9 @@
 
 #include "gyro.hpp"
 #include "can_interface.hpp"
+#include "status.hpp"
 
 extern DataStorage storage;
+// extern Status status;
 
 #endif  // MAIN_MAIN_H_

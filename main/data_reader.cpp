@@ -48,7 +48,7 @@ void gyro_task(void* pvParameters) {
     if (gyro_ok == true) {
       read_gyro();
     } else {
-      read_fake_gyro();
+      // read_fake_gyro();
     }
     
     vTaskDelay(100 / portTICK_PERIOD_MS);

@@ -11,10 +11,13 @@
 #include "driver/gpio.h"
 #include "driver/can.h"
 
+#include "status.hpp"
+
 void can_init();
 
 extern void can_transmit_task(void* pvParameters);
 extern void can_receive_task(void* pvParameters);
+extern void can_rx_parse_task(void* pvParameters);
 extern void can_control_task(void* pvParameters);
 
 #endif

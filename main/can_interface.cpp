@@ -7,24 +7,26 @@
 #define TX_TASK_PRIO            8       //Sending task priority
 #define RX_TASK_PRIO            9       //Receiving task priority
 #define CTRL_TSK_PRIO           10      //Control task priority
-#define MSG_ID                  0x555   //11 bit standard format ID
-#define BLINK_GPIO GPIO_NUM_5
+#define LEVEL_ID                0x321   //11 bit standard format ID
+#define AIR_ID                  0x40   //11 bit standard format ID
 
 
+static QueueHandle_t can_rx_task_queue;
+static QueueHandle_t can_tx_task_queue;
 // SemaphoreHandle_t tx_sem;
-SemaphoreHandle_t rx_sem;
+// SemaphoreHandle_t rx_sem;
 // SemaphoreHandle_t ctrl_sem;
 // SemaphoreHandle_t done_sem;
 
 void can_init() {
   static const char* TAG = "CAN Init";
+  can_rx_task_queue = xQueueCreate(10, sizeof(can_message_t));
+  can_tx_task_queue = xQueueCreate(10, sizeof(can_message_t));
 //   return;
 //   tx_sem = xSemaphoreCreateBinary();
   // rx_sem = xSemaphoreCreateBinary();
 //   ctrl_sem = xSemaphoreCreateBinary();
 //   done_sem = xSemaphoreCreateBinary();
-  gpio_pad_select_gpio(BLINK_GPIO);
-  gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
   can_general_config_t g_config = CAN_GENERAL_CONFIG_DEFAULT(GPIO_NUM_21, GPIO_NUM_22, CAN_MODE_NORMAL);
   // can_timing_config_t t_config = CAN_TIMING_CONFIG_500KBITS();
   // can_filter_config_t f_config = CAN_FILTER_CONFIG_ACCEPT_ALL();
@@ -64,7 +66,9 @@ void can_init() {
 //   xTaskCreatePinnedToCore(can_receive_task, "CAN_rx", 4096, NULL, RX_TASK_PRIO, NULL, tskNO_AFFINITY);
 //   xTaskCreatePinnedToCore(can_transmit_task, "CAN_tx", 4096, NULL, TX_TASK_PRIO, NULL, tskNO_AFFINITY);
   ESP_LOGI(TAG, "before CAN_rx task");
-  xTaskCreate(&can_receive_task, "CAN_rx", 4000, NULL, 6, NULL);
+  xTaskCreatePinnedToCore(can_receive_task, "CAN_RX", 10000, NULL, RX_TASK_PRIO, NULL, tskNO_AFFINITY);
+  xTaskCreate(&can_rx_parse_task, "CAN_RX_PARSE", 10000, NULL, 10, NULL);
+  // xTaskCreate(&can_receive_task, "CAN_rx", 10000, NULL, 1, NULL);
   ESP_LOGI(TAG, "After CAN_rx task");
 
   //Install CAN driver
@@ -103,20 +107,15 @@ void can_init() {
 
 void can_receive_task(void* pvParameters) {
     static const char* TAG = "CAN RX";
-    gpio_set_level(BLINK_GPIO, 0);
-    vTaskDelay(100 / portTICK_PERIOD_MS);
-    gpio_set_level(BLINK_GPIO, 1);
     ESP_LOGI(TAG, "Starting CAN_rx task");
     for (;;){
         bool failed = true;
-        can_message_t message;
-        esp_err_t res = can_receive(&message, pdMS_TO_TICKS(10000));
+        can_message_t rx_message;
+        esp_err_t res = can_receive(&rx_message, pdMS_TO_TICKS(10000));
+
         switch(res) {
           case ESP_OK:
             // printf("Message received\n");
-            gpio_set_level(BLINK_GPIO, 0);
-            vTaskDelay(100 / portTICK_PERIOD_MS);
-            gpio_set_level(BLINK_GPIO, 1);
             failed = false;
             break; //optional
           case ESP_ERR_TIMEOUT:
@@ -134,23 +133,60 @@ void can_receive_task(void* pvParameters) {
         }
 
         if (failed == false) {
-            //Process received message
-            // if (message.flags & CAN_MSG_FLAG_EXTD) {
-            //     printf("Message is in Extended Format\n");
-            // } else {
-            //     printf("Message is in Standard Format\n");
-            // }
-            if (!(message.flags & CAN_MSG_FLAG_RTR)) {
-              ESP_LOGI(TAG, "ID: %d, size: %d", message.identifier, message.data_length_code);
-              // for (int i = 0; i < message.data_length_code; i++) {
-              //     printf("Data byte %d = %d\n", i, message.data[i]);
-              // }
-            }
-
+          xQueueSend(can_rx_task_queue, &rx_message, portMAX_DELAY);
+          set_can_result(0);
+        } else {
+          set_can_result(1);
         }
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
     // vTaskDelete(NULL);
+}
+
+
+void can_rx_parse_task(void* pvParameters) {
+  can_message_t message;
+  union {
+    char conv_buf[8];
+    short two_byte_value;
+    int four_byte_value;
+  };
+
+  for(;;) {
+    xQueueReceive(can_rx_task_queue, &message, portMAX_DELAY);
+    if (!(message.flags & CAN_MSG_FLAG_RTR)) {
+      switch (message.identifier) {
+        case AIR_ID:
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data, 2);
+          storage.airspeed = two_byte_value;
+
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data + 2, 4);
+          // data = (message.data[4] << 16) | (message.data[3] << 8) | message.data[2];
+          storage.altitude = four_byte_value;
+
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data + 6, 2);
+          storage.vsi = (two_byte_value / 10.0);
+          break;
+        case LEVEL_ID:
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data, 2);
+          storage.heading = two_byte_value;
+
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data + 2, 2);
+          storage.roll = (two_byte_value / 10.0);
+
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data + 4, 2);
+          storage.pitch = (two_byte_value / 10.0);
+          break;
+      }
+    }
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+  }
 }
 
 // void can_control_task(void* pvParameters) {

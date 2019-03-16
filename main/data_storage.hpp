@@ -6,6 +6,7 @@ class DataStorage {
     double pitch;
     double roll;
     double heading;
+    double vsi;
     int altitude;
     int airspeed;
     int ground_speed;
