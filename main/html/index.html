@@ -15,13 +15,13 @@
 
       websocket.onmessage = function(evt) {
         var data = JSON.parse(evt.data);
-        avionics.roll = data.roll;
-        avionics.pitch = data.pitch;
-        avionics.currentHeading = data.heading;
-        avionics.altitude = data.altitude;
-        avionics.airspeed = data.airspeed;
-        avionics.selectedAltitude = data.desired_altitude;
-        avionics.groundSpeed = data.ground_speed;
+        avionics.roll = data.r;
+        avionics.pitch = data.p;
+        avionics.currentHeading = data.h;
+        avionics.altitude = data.a;
+        avionics.airspeed = data.as;
+        avionics.selectedAltitude = data.da;
+        avionics.groundSpeed = data.gs;
       }
 
       websocket.onclose = function(evt) {

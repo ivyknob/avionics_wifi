@@ -175,21 +175,21 @@ void server_handle_task(void* pvParameters) {
 
 void websockets_task(void* pvParameters) {
   static const char* TAG = "websockets_task";
-  int n = 0;
+  // int n = 0;
   const int DELAY = 100 / portTICK_PERIOD_MS;
 
   ESP_LOGI(TAG, "Started");
   for (;;) {
 
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "pitch", storage.pitch);
-    cJSON_AddNumberToObject(root, "roll", storage.roll);
-    cJSON_AddNumberToObject(root, "heading", (int)storage.heading);
-    cJSON_AddNumberToObject(root, "altitude", (int)storage.altitude);
-    cJSON_AddNumberToObject(root, "desired_heading", (int)storage.desired_heading);
-    cJSON_AddNumberToObject(root, "desired_altitude", (int)storage.desired_altitude);
-    cJSON_AddNumberToObject(root, "airspeed", (int)storage.airspeed);
-    cJSON_AddNumberToObject(root, "ground_speed", (int)storage.ground_speed);
+    cJSON_AddNumberToObject(root, "p", storage.pitch);
+    cJSON_AddNumberToObject(root, "r", storage.roll);
+    cJSON_AddNumberToObject(root, "h", (int)storage.heading);
+    cJSON_AddNumberToObject(root, "a", (int)storage.altitude);
+    cJSON_AddNumberToObject(root, "dh", (int)storage.desired_heading);
+    cJSON_AddNumberToObject(root, "da", (int)storage.desired_altitude);
+    cJSON_AddNumberToObject(root, "as", (int)storage.airspeed);
+    cJSON_AddNumberToObject(root, "gs", (int)storage.ground_speed);
     cJSON_AddNumberToObject(root, "qnh", (int)storage.qnh);
 
     char *rendered = cJSON_PrintUnformatted(root);
@@ -199,11 +199,11 @@ void websockets_task(void* pvParameters) {
     cJSON_Delete(root);
     free(rendered);
 
-    n++;
-    if (n > 50) {
-      n = 0;
-      ESP_LOGI(TAG, "rendered json: %s", rendered);
-    }
+    // n++;
+    // if (n > 50) {
+    //   n = 0;
+    //   // ESP_LOGI(TAG, "rendered json: %s", rendered);
+    // }
     vTaskDelay(DELAY);
   }
 }
