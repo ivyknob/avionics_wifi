@@ -9,6 +9,7 @@
 #define CTRL_TSK_PRIO           10      //Control task priority
 #define LEVEL_ID                0x321   //11 bit standard format ID
 #define AIR_ID                  0x40   //11 bit standard format ID
+#define GPS_ID                  0x100   //11 bit standard format ID
 
 
 static QueueHandle_t can_rx_task_queue;
@@ -192,6 +193,11 @@ void can_rx_parse_task(void* pvParameters) {
           four_byte_value = 0;
           memcpy(conv_buf, message.data + 4, 2);
           storage.pitch = (two_byte_value / 10.0);
+          break;
+        case GPS_ID:
+          four_byte_value = 0;
+          memcpy(conv_buf, message.data, 2);
+          storage.ground_speed = two_byte_value;
           break;
       }
     }
