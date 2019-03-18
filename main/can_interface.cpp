@@ -110,6 +110,7 @@ void can_receive_task(void* pvParameters) {
     static const char* TAG = "CAN RX";
     ESP_LOGI(TAG, "Starting CAN_rx task");
     int demo_enabled = 0;
+    int at_least_one_message_received = 0;
     for (;;){
         bool failed = true;
         can_message_t rx_message;
@@ -137,13 +138,14 @@ void can_receive_task(void* pvParameters) {
         if (failed == false) {
           xQueueSend(can_rx_task_queue, &rx_message, portMAX_DELAY);
           set_can_result(0);
+          at_least_one_message_received = 1;
           if (demo_enabled > 0){
             demo_enabled = 0;
             xQueueSend(demo_task_queue, &demo_enabled, portMAX_DELAY);
           }
         } else {
           set_can_result(1);
-          if (demo_enabled == 0){
+          if (demo_enabled == 0 && at_least_one_message_received == 0){
             demo_enabled = 1;
             xQueueSend(demo_task_queue, &demo_enabled, portMAX_DELAY);
           }
@@ -152,7 +154,6 @@ void can_receive_task(void* pvParameters) {
     }
     // vTaskDelete(NULL);
 }
-
 
 void can_rx_parse_task(void* pvParameters) {
   can_message_t message;
