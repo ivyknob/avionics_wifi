@@ -20,9 +20,7 @@
 #include "wifi.hpp"
 #include "webserver.hpp"
 #include "data_storage.hpp"
-#include "data_reader.hpp"
-
-#include "gyro.hpp"
+#include "demo.hpp"
 #include "can_interface.hpp"
 #include "status.hpp"
 

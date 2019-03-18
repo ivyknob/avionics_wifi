@@ -8,7 +8,8 @@ void init_system() {
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
   // wifi_setup();
   wifi_init_sta();
-  gyro_init();
+  demo_init();
+  // gyro_init();
   // gyro init fires gyro_task if everything is ok
   // if not ok, it adds fake gyro 
   ws_server_start();

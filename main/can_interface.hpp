@@ -12,6 +12,7 @@
 #include "driver/can.h"
 
 #include "status.hpp"
+#include "demo.hpp"
 
 void can_init();
 

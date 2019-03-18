@@ -13,6 +13,7 @@
 
 static QueueHandle_t can_rx_task_queue;
 static QueueHandle_t can_tx_task_queue;
+
 // SemaphoreHandle_t tx_sem;
 // SemaphoreHandle_t rx_sem;
 // SemaphoreHandle_t ctrl_sem;
@@ -108,6 +109,7 @@ void can_init() {
 void can_receive_task(void* pvParameters) {
     static const char* TAG = "CAN RX";
     ESP_LOGI(TAG, "Starting CAN_rx task");
+    int demo_enabled = 0;
     for (;;){
         bool failed = true;
         can_message_t rx_message;
@@ -135,8 +137,16 @@ void can_receive_task(void* pvParameters) {
         if (failed == false) {
           xQueueSend(can_rx_task_queue, &rx_message, portMAX_DELAY);
           set_can_result(0);
+          if (demo_enabled > 0){
+            demo_enabled = 0;
+            xQueueSend(demo_task_queue, &demo_enabled, portMAX_DELAY);
+          }
         } else {
           set_can_result(1);
+          if (demo_enabled == 0){
+            demo_enabled = 1;
+            xQueueSend(demo_task_queue, &demo_enabled, portMAX_DELAY);
+          }
         }
         vTaskDelay(20 / portTICK_PERIOD_MS);
     }
@@ -163,7 +173,6 @@ void can_rx_parse_task(void* pvParameters) {
 
           four_byte_value = 0;
           memcpy(conv_buf, message.data + 2, 4);
-          // data = (message.data[4] << 16) | (message.data[3] << 8) | message.data[2];
           storage.altitude = four_byte_value;
 
           four_byte_value = 0;
