@@ -7,10 +7,10 @@ class DataStorage {
     double roll;
     double heading;
     double vsi;
+    double qnh;
     int altitude;
     int airspeed;
     int ground_speed;
-    int qnh;
     int desired_altitude;
     int desired_heading;
 };
