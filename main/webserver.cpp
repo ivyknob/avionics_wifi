@@ -191,6 +191,7 @@ void websockets_task(void* pvParameters) {
     cJSON_AddNumberToObject(root, "as", (int)storage.airspeed);
     cJSON_AddNumberToObject(root, "gs", (int)storage.ground_speed);
     cJSON_AddNumberToObject(root, "qnh", (int)storage.qnh);
+    cJSON_AddNumberToObject(root, "vsi", storage.vsi);
 
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);
