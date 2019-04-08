@@ -22,6 +22,8 @@
         avionics.airspeed = data.as;
         avionics.selectedAltitude = data.da;
         avionics.groundSpeed = data.gs;
+        avionics.qnh = data.qnh;
+        avionics.verticalSpeed = data.vsi;
       }
 
       websocket.onclose = function(evt) {
