@@ -28,6 +28,6 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "@ivyknob/avionics_js": "^0.0.9"
+    "@ivyknob/avionics_js": "^0.0.14"
   }
 }

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ivyknob/avionics_js@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@ivyknob/avionics_js/-/avionics_js-0.0.9.tgz#a62a529a7de648b2db78baa8345e20c176fea850"
-  integrity sha512-C7DNjcGNIRTQONzQDRhQKZ/BC/RGs1rZFnpRHvkqO3kKk1Iakl/Jac2AcGfUQ5o1BDc+AWsDy50M1zhLwprA8w==
+"@ivyknob/avionics_js@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@ivyknob/avionics_js/-/avionics_js-0.0.14.tgz#7d6dea6ee866576362ee6ba0119543889429babd"
+  integrity sha512-syDdwqbT9lZldKueNk4hXayLRxJfisFzr/81qxujEMph73dtaM6pOevgPzsvK6+D7IzZqsDn1m15VVKHMUFwOg==
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
