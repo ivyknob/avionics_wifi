@@ -1,5 +1,5 @@
 import toastr from 'toastr'
 import '../node_modules/toastr/build/toastr.css'
-import './avionics.js'
+import '@ivyknob/avionics_js'
 
 global.toastr = toastr;

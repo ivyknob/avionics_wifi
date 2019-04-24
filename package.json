@@ -26,5 +26,8 @@
     "webpack": "^4.29.6",
     "webpack-clean": "^1.2.3",
     "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "@ivyknob/avionics_js": "^0.0.14"
   }
 }
