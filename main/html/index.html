@@ -7,6 +7,39 @@
     document.addEventListener("DOMContentLoaded", function() {
       window.avionics = new Avionics(document.body);
 
+      var div = document.createElement('div');
+      div.innerHTML = modalTemplate;
+      document.body.appendChild(div)
+      var modalElement = document.getElementById('modal');
+      window.modal = new RModal(
+        modalElement
+        // options // See "Options" below details
+      );
+
+      avionics.elem.querySelector('#barometric_setting').addEventListener('click', function(){
+        modal.open();
+      })
+
+      modal.dialog.querySelector('form').addEventListener('submit', () => {
+        event.preventDefault();
+        var settings = {};
+        [...event.currentTarget.elements].forEach(({name, value}) => {
+          if (name) {
+            settings[name] = value;
+          }
+        });
+        fetch("/settings", {
+          method: 'POST',
+          body: JSON.stringify({settings}),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then(response => {
+          console.log(response)
+        });
+      });
+
       var websocket = new WebSocket('ws://'+location.hostname+'/');
 
       websocket.onopen = function(evt) {
