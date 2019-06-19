@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Avionics js</title>
-  <script type="text/javascript" defer src="avionics.js.gz"></script>
+  <script type="text/javascript" defer src="<%= htmlWebpackPlugin.options.scriptSrc %>"></script>
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
       window.avionics = new Avionics(document.body);
@@ -72,5 +72,5 @@
     });
   </script>
 </head>
-<body><script type="text/javascript" src="avionics.js"></script></body>
+<body></body>
 </html>

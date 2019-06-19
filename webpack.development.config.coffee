@@ -1,21 +1,18 @@
+merge = require('webpack-merge')
 path = require('path')
+common = require('./webpack.common.config.coffee')
+HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports =
+module.exports = merge(common, {
   mode: 'development'
-  entry:
-    avionics: './src/index.js'
-  output:
-    path: path.resolve(__dirname, 'main', 'html')
-  module:
-    rules: [{
-      test: /\.css$/
-      use: ['style-loader', 'css-loader']
-    },{
-      test: /\.html$/
-      use: [{
-        loader: 'html-loader',
-        options: {
-          minimize: true
-        }
-      }]
-    }]
+  devServer:
+    contentBase: path.join(__dirname, 'main', 'html')
+  watchOptions: { ignored: /node_modules/ }
+  plugins: [
+    new HtmlWebpackPlugin
+      filename: 'index.html'
+      template: 'src/index.ejs'
+      injext: false
+      scriptSrc: 'avionics.js'
+  ]
+})
