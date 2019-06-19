@@ -12,7 +12,7 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin
       filename: 'index.html'
       template: 'src/index.ejs'
-      injext: false
+      inject: false
       scriptSrc: 'avionics.js'
   ]
 })
