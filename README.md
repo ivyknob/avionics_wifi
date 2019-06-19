@@ -33,7 +33,7 @@ export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
 
 ```
 cd ~/esp
-git clone --recursive https://github.com/espressif/esp-idf.git
+git clone -b v3.3-beta3 --recursive https://github.com/espressif/esp-idf.git
 ```
 Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
 
