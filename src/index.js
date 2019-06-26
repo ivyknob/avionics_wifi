@@ -1,4 +1,7 @@
-import toastr from 'toastr' // заменить на yarn add toastify-js
+/* global global */
+// Заменить на yarn add toastify-js
+import toastr from 'toastr'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'toastr/build/toastr.css'
 import '@ivyknob/avionics_js'
