@@ -8,12 +8,11 @@ node_js:
 #   - test
 jobs:
   include:
-    - stage: "Build JS"
+    - stage: "Check JS"
       name: Make sure the build is successful
       script: yarn build
 
-    - stage: "Check JS"
-      name: Audit package dependencies for security vulnerabilities
+    - name: Audit package dependencies for security vulnerabilities
       script: yarn audit
 
     - name: "Lint JS"
