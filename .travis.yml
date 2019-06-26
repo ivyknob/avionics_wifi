@@ -1,0 +1,19 @@
+dist: xenial
+language: node_js
+node_js:
+  - 10
+# stages:
+#   - build
+#   - check
+#   - test
+jobs:
+  include:
+    - stage: "Check JS"
+      name: Make sure the build is successful
+      script: yarn build
+
+    - name: Audit package dependencies for security vulnerabilities
+      script: yarn audit
+
+    - name: "Lint JS"
+      script: yarn lint

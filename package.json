@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "dev": "webpack-dev-server --host 0.0.0.0 --config webpack.development.config.coffee",
+    "build": "webpack --config webpack.production.config.coffee",
+    "lint": "npx eslint ./src/"
   },
   "repository": {
     "type": "git",
@@ -18,13 +20,21 @@
   },
   "homepage": "https://github.com/ivyknob/avionics_wifi#readme",
   "devDependencies": {
+    "@ivyknob/avionics_js": "^0.0.14",
+    "bootstrap": "^4.3.1",
     "coffee-script": "^1.12.7",
     "compression-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "rmodal": "^1.0.34",
     "style-loader": "^0.23.1",
-    "toastr": "^2.1.4",
+    "toastify-js": "^1.5.0",
     "webpack": "^4.29.6",
     "webpack-clean": "^1.2.3",
-    "webpack-cli": "^3.2.3"
-  }
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {}
 }

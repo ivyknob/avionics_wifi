@@ -94,6 +94,13 @@ void http_serve(struct netconn *conn) {
         ESP_LOGI(TAG, "Requesting websocket on /");
         ws_server_add_client(conn, buf, buflen, (char*)"/", websocket_callback);
         netbuf_delete(inbuf);
+      } else if (strstr(buf, "POST /settings ")) {
+        ESP_LOGI(TAG, "Recieved /settings");
+        netconn_write(conn, HTML_HEADER, sizeof(HTML_HEADER) - 1, NETCONN_NOCOPY);
+        netconn_write(conn, "OK", 2, NETCONN_NOCOPY);
+        netconn_close(conn);
+        netconn_delete(conn);
+        netbuf_delete(inbuf);
       } else if (strstr(buf, "GET /avionics.js.gz ")) {
         ESP_LOGI(TAG, "Sending /avionics.js.gz");
         netconn_write(conn, JS_GZIP_HEADER, sizeof(JS_GZIP_HEADER) - 1, NETCONN_NOCOPY);
@@ -191,6 +198,7 @@ void websockets_task(void* pvParameters) {
     cJSON_AddNumberToObject(root, "as", (int)storage.airspeed);
     cJSON_AddNumberToObject(root, "gs", (int)storage.ground_speed);
     cJSON_AddNumberToObject(root, "qnh", (int)storage.qnh);
+    cJSON_AddNumberToObject(root, "vsi", storage.vsi);
 
     char *rendered = cJSON_PrintUnformatted(root);
     int64_t len = strlen(rendered);

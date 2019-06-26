@@ -1,5 +1,11 @@
-import toastr from 'toastr'
-import '../node_modules/toastr/build/toastr.css'
-import './avionics.js'
+/* global global */
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Toastify from 'toastify-js'
+import "toastify-js/src/toastify.css"
+import '@ivyknob/avionics_js'
+import RModal from 'rmodal'
+import modalTemplate from './modal.html'
 
-global.toastr = toastr;
+global.Toastify = Toastify;
+global.modalTemplate = modalTemplate;
+global.RModal = RModal;
