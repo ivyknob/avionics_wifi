@@ -37,7 +37,12 @@
         })
         .then(res => {
           if (!res.ok) {
-            toastr.error(res.statusText)
+            Toastify({
+              text: res.statusText,
+              duration: 10000,
+              backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+              close: true
+            }).showToast();
           }
           console.log(res);
         });
@@ -46,7 +51,12 @@
       var websocket = new WebSocket('ws://'+location.hostname+'/');
 
       websocket.onopen = function(evt) {
-        toastr.success('WebSocket connection opened');
+        Toastify({
+          text: 'WebSocket connection opened',
+          duration: 10000,
+          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+          close: true
+        }).showToast();
       }
 
       websocket.onmessage = function(evt) {
@@ -63,11 +73,21 @@
       }
 
       websocket.onclose = function(evt) {
-        toastr.warning('Websocket connection closed', null, {timeOut: 84600, closeButton: true});
+        Toastify({
+          text: 'Websocket connection closed',
+          duration: 1e6,
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+          close: true
+        }).showToast();
       }
 
       websocket.onerror = function(evt) {
-        toastr.error('Websocket error: ' + evt, null, {timeOut: 84600, closeButton: true});
+        Toastify({
+          text: 'Websocket error: ' + evt,
+          duration: 1e6,
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+          close: true
+        }).showToast();
       }
     });
   </script>
