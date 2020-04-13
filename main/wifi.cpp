@@ -34,7 +34,7 @@ esp_err_t event_handler(void *ctx, system_event_t *event) {
 
 void wifi_init_sta() {
     const char* TAG = "wifi_setup";
-    // s_wifi_event_group = xEventGroupCreate();
+    s_wifi_event_group = xEventGroupCreate();
 
     ESP_LOGI(TAG, "starting tcpip adapter");
     tcpip_adapter_init();

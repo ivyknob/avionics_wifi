@@ -11,7 +11,7 @@ void init_system() {
   demo_init();
   // gyro_init();
   // gyro init fires gyro_task if everything is ok
-  // if not ok, it adds fake gyro 
+  // if not ok, it adds fake gyro
   ws_server_start();
   can_init();
   xTaskCreate(&server_task, "server_task", 3000, NULL, 6, NULL);
@@ -20,6 +20,6 @@ void init_system() {
   xTaskCreate(&status_task, "status_task", 7000, NULL, 6, NULL);
 }
 
-extern "C" void app_main() {
+void app_main() {
   init_system();
 }
