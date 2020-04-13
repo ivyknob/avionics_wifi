@@ -12,16 +12,16 @@
     "url": "git+https://github.com/ivyknob/avionics_wifi.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ivyknob/avionics_wifi/issues"
   },
   "homepage": "https://github.com/ivyknob/avionics_wifi#readme",
   "devDependencies": {
     "coffee-script": "^1.12.7",
-    "compression-webpack-plugin": "^2.0.0",
-    "css-loader": "^2.1.1",
-    "style-loader": "^0.23.1",
+    "compression-webpack-plugin": "^3.1.0",
+    "css-loader": "^3.5.2",
+    "style-loader": "^1.1.3",
     "toastr": "^2.1.4",
     "webpack": "^4.29.6",
     "webpack-clean": "^1.2.3",
