@@ -4,38 +4,16 @@
 
 ## Requirements
 
-### ESP Toolchain
-
-**MAC OS X**
-```
-mkdir ~/esp
-cd ~/esp
-wget https://dl.espressif.com/dl/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz
-tar -xzf ~/esp/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz
-```
-**UBUNTU**
-
-```
-sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-pip python-setuptools python-serial python-cryptography python-future python-pyparsing
-mkdir ~/esp
-cd ~/esp
-wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
-tar -xzf ~/esp/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
-```
-
-Add `$HOME/esp/xtensa-esp32-elf/bin` to `~/.zshrc` or `~/.profile`.
-It should look something like:
-```
-export PATH=$HOME/esp/xtensa-esp32-elf/bin:$PATH
-```
-
 ### ESP-IDF
 
-```
+```bash
 cd ~/esp
-git clone --recursive https://github.com/espressif/esp-idf.git
+git clone -b v4.1rc --recursive https://github.com/espressif/esp-idf.git esp-idf-v4.1
+cd esp-idf-v4.1
+./install.sh
 ```
-Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
+
+Add `. $HOME/esp/esp-idf-v4.1/export.sh > /dev/null` to `~/.zshrc` or `~/.profile`.
 
 **Restart terminal application**
 
@@ -43,7 +21,7 @@ Add `export IDF_PATH="$HOME/esp/esp-idf"` to `~/.zshrc` or `~/.profile`.
 
 ##### installing pip
 
-```
+```bash
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 rm get-pip.py
@@ -51,7 +29,7 @@ rm get-pip.py
 
 **After installing pip**
 
-```
+```bash
 python -m pip install --user -r $IDF_PATH/requirements.txt
 ```
 
@@ -63,7 +41,7 @@ Inside repo run: `git submodule update --init --recursive`
 
 Check esp32 port with command:
 
-```
+```bash
 ls /dev | grep -i usb
 ```
 
@@ -71,7 +49,7 @@ copy port name.
 
 Add something like this to your `~/.profile` or `~/.zshrc file`
 
-```
+```bash
 export CONFIG_ESPTOOLPY_PORT="/dev/tty.usbserial-1420"
 ```
 
@@ -81,13 +59,13 @@ Reload terminal or use source command.
 
 Copy sample file:
 
-```
+```bash
 cp sdkconfig.sample sdkconfig
 ```
 
 Run:
 
-```
+```bash
 make menuconfig
 ```
 
@@ -99,8 +77,8 @@ make menuconfig
 
 Build the project and flash it to the board, then run monitor tool to view serial output:
 
-```
-make -j4 flash monitor
+```bash
+idf.py flash monitor
 ```
 
 (To exit the serial monitor, type ``Ctrl+]``.)
