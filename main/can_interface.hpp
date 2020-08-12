@@ -6,7 +6,7 @@
 #include "freertos/queue.h"
 
 #include "esp_log.h"
-#include "esp_event_loop.h"
+#include "esp_event.h"
 
 #include "driver/gpio.h"
 #include "driver/can.h"
