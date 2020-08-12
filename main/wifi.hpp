@@ -1,23 +1,23 @@
 #ifndef MAIN_WIFI_H_
 #define MAIN_WIFI_H_
 
-#include "lwip/api.h"
-#include "lwip/err.h"
-#include "lwip/sockets.h"
-#include "lwip/sys.h"
-#include "lwip/netdb.h"
-#include "lwip/dns.h"
+#define WIFI_CONNECTED_BIT BIT0
+#define WIFI_FAIL_BIT      BIT1
 
+#include <string.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
 #include "esp_wifi.h"
-#include "esp_log.h"
 #include "esp_event.h"
+#include "esp_log.h"
 #include "nvs_flash.h"
 
-#define AP_SSID CONFIG_AP_SSID
-#define AP_PSSWD CONFIG_AP_PSSWD
+#include "lwip/err.h"
+#include "lwip/sys.h"
 
-esp_err_t event_handler(void *ctx, system_event_t *event);
-void wifi_init_sta();
+void wifi_init_sta(void);
 
 // static esp_err_t event_handler(void* ctx, system_event_t* event)
 // static void wifi_setup()

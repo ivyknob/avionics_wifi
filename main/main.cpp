@@ -7,6 +7,14 @@ void init_system() {
   gpio_pad_select_gpio(BLINK_GPIO);
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
   // wifi_setup();
+
+  esp_err_t ret = nvs_flash_init();
+  if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    ret = nvs_flash_init();
+  }
+  ESP_ERROR_CHECK(ret);
+
   wifi_init_sta();
   demo_init();
   // gyro_init();
@@ -20,6 +28,6 @@ void init_system() {
   xTaskCreate(&status_task, "status_task", 7000, NULL, 6, NULL);
 }
 
-void app_main() {
+extern "C" void app_main() {
   init_system();
 }

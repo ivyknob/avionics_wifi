@@ -9,7 +9,7 @@ uint32_t ws_last_millis;
 
 uint32_t millis() {
   return xTaskGetTickCount() * portTICK_PERIOD_MS;
-} 
+}
 
 void set_can_result(int result) {
   can_last_result = result;
@@ -29,12 +29,12 @@ void blink() {
 
 bool is_ws_ok() {
   if (ws_last_result != 0) { return false; }
-  return (abs(millis() - ws_last_millis) < 3 * WS_PERIOD);
+  return (millis() - ws_last_millis) < 3 * WS_PERIOD;
 }
 
 bool is_can_ok() {
   if (can_last_result != 0) { return false; }
-  return (abs(millis() - can_last_millis) < 3 * CAN_PERIOD);
+  return (millis() - can_last_millis) < 3 * CAN_PERIOD;
 }
 
 bool is_ok() {
